@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can include global styles here */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+
+body {
+  background-color: #FDFDFD !important;
+}
+
+
+/* to prevent bootstrap use own font*/
+body, h1, h2, h3, h4, h5, h6, p, a {
+  font-family: 'Cairo', sans-serif !important;
+}
+
+/* to prevent bootstrap use own font*/
+.navbar, .btn, .form-control {
+  font-family: 'Cairo', sans-serif !important;
+}
+
+.bg-white {
+  background-color: white;
+}

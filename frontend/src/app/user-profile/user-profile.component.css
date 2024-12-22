@@ -1,0 +1,111 @@
+.btn-outline {
+  --bs-btn-color: #1e88e5;
+  --bs-btn-border-color: #1e88e5;
+  --bs-btn-hover-color: white;
+  --bs-btn-hover-bg: #1e88e5;
+  --bs-btn-hover-border-color: #1e88e5;
+  --bs-btn-focus-shadow-rgb: 30, 136, 229;
+  --bs-btn-active-color: white;
+  --bs-btn-active-bg: #1e88e5;
+  --bs-btn-active-border-color: #1e88e5;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+
+.profile-picture {
+  width: 100%;  /* العرض سيكون مرنًا ويأخذ المساحة المتاحة */
+  max-width: 200px; /* الحد الأقصى للعرض */
+  height: auto; /* الطول سيتناسب تلقائيًا مع العرض */
+  aspect-ratio: 1 / 1; /* النسبة بين العرض والارتفاع ستكون 1:1 (دائري) */
+  object-fit: cover; /* لتغطية الصورة بالكامل داخل العنصر */
+  border-radius: 50%; /* جعل الصورة دائرية */
+  transition: transform 0.3s ease;
+}
+
+.profile-picture:hover {
+  transform: scale(1.05);
+}
+
+.edit-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.position-relative:hover .edit-overlay {
+  opacity: 1;
+}
+
+.headerline {
+  color: #1e88e5;
+}
+
+.owner-link-rating {
+  position: absolute;
+  bottom: 42%;
+  left: 10px;
+  display: block;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #1e88e5;
+  z-index: 2;
+}
+
+.owner-link {
+  position: absolute;
+  bottom: 36%;
+  left: 10px;
+  display: block;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #1e88e5;
+  z-index: 2;
+}
+
+.owner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.p-custom{
+  padding-left: 0px !important;
+}
+
+.about-content {
+  text-align: right;
+  white-space: pre-wrap;
+  overflow: hidden;
+  word-wrap: break-word;
+  display: inline;
+}
+
+pre {
+  display: inline;
+  margin: 0;
+}
+

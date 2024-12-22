@@ -1,0 +1,225 @@
+<!-- <a href="" class="text-decoration-none text-muted">مهلائيل ←</a> -->
+<div class="container-fluid mt-5">
+    <ul class="d-flex align-items-center">
+        <li class="list-group-item">
+            <a href="" class="text-decoration-none text-muted"> الرئيسية </a> <i class="fa-solid fa-arrow-left"></i>
+        </li>
+        <li class="list-group-item">
+            <a href="" class="text-decoration-none text-muted"> الرئيسية  </a> <i class="fa-solid fa-arrow-left"></i>
+        </li>
+        <li class="list-group-item">
+            <a href="" class="text-decoration-none text-muted">الرئيسية</a>
+        </li>
+    </ul>
+    <div class="w-100 d-flex align-items-center justify-content-between px-4">
+        <h1>{{ service?.title }}</h1>
+        <p *ngIf="isOwner" class="my-auto"> <a [routerLink]="['/edit-service', service?.id]" class="btn btn-outline-success">تعديل الخدمة</a> || <a (click)="confirmDeleteService(service?.id)" class="btn btn-outline-danger">حذف الخدمة</a> </p>
+        <p *ngIf="!isOwner" class="my-auto"><a href="" class="btn btn-outline" >اشتري الخدمة</a> أو <a href="" class="btn btn-outline">تواصل مع البائع</a></p>
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-8 col-md-12 col-sm-12">
+            <div class="px-4 py-2 bg-white">
+                <main >
+                    <swiper-container id="shadow-root" appSwiper #swiper [config]="swiperConfig"  (slidechange)="slideChange($event)">
+                        <swiper-slide *ngFor="let image of images">
+                            <div class="ratio ratio-4x3">
+                                <img class="m-auto" [src]="image" alt="" style="width: 85%;" >
+                            </div>
+                        </swiper-slide>
+                    </swiper-container>
+                </main>
+                <div class="mt-5">
+                    <div class="fs-5 fw-bold">
+                        وصف الخدمة
+                    </div>
+                    <div class="mt-3">
+                        {{ service?.description }}
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="mt-4 bg-white px-4 fw-bold">
+                اشتري الخدمة
+            </div> -->
+
+            <div class="mt-4 bg-white card border-0"> 
+                <div class="card-header bg-white">
+                    <h3>آراء المشترين</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-6 mb-2">
+                                    <span>جودة الخدمة</span>
+                                </div>
+                                <div class="col-6 text-end mb-2">
+                                    <app-star-rating [rating]="3.5"></app-star-rating>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <span>التواصل والمتابعة</span>
+                                </div>
+                                <div class="col-6 text-end mb-2">
+                                    <app-star-rating [rating]="3"></app-star-rating>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <span>التسليم بالموعد</span>
+                                </div>
+                                <div class="col-6 text-end mb-2">
+                                    <app-star-rating [rating]="3"></app-star-rating>
+                                </div>
+                            </div>
+                            <div class="row o-media">
+                                <div class="col-1">
+                                    <img src="../../assets/auth/istockphoto-1300845620-612x612.jpg" width="60rem" class="rounded-circle" alt="">
+                                </div>
+                                <div class="col-11">
+                                    <h5 >Jaafar</h5>
+                                    <p class="text-muted fs-6 d-flex justify-content-between">
+                                        <span class="d-flex align-items-center">
+                                            <i class="ri-user-line"></i> المشتري
+                                        </span>
+                                        <span class="d-flex align-items-center">
+                                            <i class="ri-user-line"></i> منذ ثلاثة أشهر
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="fw-bold mt-4"> 
+                                    الخدمة التي قدمتها مميزة جدا
+                                </div>
+                                <div class="replay  mt-4">
+                                    <div class="row pt-4 px-5">
+                                        <div class="col-1">
+                                            <img src="../../assets/auth/istockphoto-1300845620-612x612.jpg" width="60rem" class="rounded-circle m-auto p-0" alt="">
+                                        </div>
+                                        <div class="col-11">
+                                            <h5 class="mt-auto">Mahlaeel</h5>
+                                            <p class="text-muted fs-6 d-flex align-items-center justify-content-between">
+                                                <span class="d-flex align-items-center">
+                                                    <i class="ri-user-line"></i> البائع
+                                                </span>
+                                                <span class="d-flex align-items-center">
+                                                    <i class="ri-user-line"></i> منذ ثلاثة أشهر
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="fw-bold mt-4"> 
+                                            شكرا لوثوقك بأعمالي
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 bg-white px-4 fw-bold">
+                <div class="row ">
+                    <div class="col-12 mt-3 border-bottom mb-3">
+                        <h3>خدمات مقترحة</h3>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <div class="card mb-3 shadow-sm border rounded-5 custom-card" style="width: 18rem;">
+                            <!-- Service Image -->
+                            <!-- <img src="../../assets/home/working-remotely.svg" alt="" class="border rounded-5" style="width: 18rem; height: 15rem;"> -->
+                            <main>
+                                <swiper-container id="shadow-root" appSwiper navigation #swiper [config]="swiperConfig"  (slidechange)="slideChange($event)">
+                                    <swiper-slide *ngFor="let image of images">
+                                        <div class="ratio ratio-4x3">
+                                            <a href="" class="">
+                                                <img class="rounded-4" [src]="image" alt="" style="width: 100%;">
+                                            </a>
+                                        </div>
+                                    </swiper-slide>
+                                </swiper-container>
+                            </main>
+                            <!-- Owner Profile Picture -->
+                            <a href="owner" class="owner-link">
+                                <img src="../../assets/images.jpg" alt="مالك الخدمة" class="owner-img">
+                            </a>
+                            <!-- Card Content -->
+                            <div class="card-body">
+                                <a href="" class="text-decoration-none"> 
+                                    <h6 class="card-title">تصميم هندسي (عمارة و مدني)</h6>
+                                </a>
+                                <!-- Rating -->
+                                <p class="card-text d-flex align-items-center justify-content-between">
+                                    <span> تقييم الخدمة:</span>
+                                    <app-star-rating [rating]="3.5"></app-star-rating>
+                                </p>
+                            <!-- Price -->
+                            <p class="card-text d-flex align-items-center justify-content-between">
+                                <span>السعر:</span>
+                                <span>12$</span>
+                            </p>
+                            <!-- Duration -->
+                            <p class="card-text d-flex align-items-center justify-content-between">
+                                <span>مدة التسليم:</span>
+                                <span>يومين</span>
+                            </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12 col-sm-12">
+            <div class="py-2 bg-white">
+                <div class="card border-0">
+                    <div class="card-header bg-white fs-4 pb-3">
+                        بطاقة الخدمة
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <span class="fs-6">التقييمات</span>
+                            </div>
+                            <div class="col-6 mb-3 fs-6 d-flex align-items-center justify-content-end"> <app-star-rating [rating]="3.5" ></app-star-rating> <span class="text-muted"> (30)</span></div>
+                            <div class="col-6 mb-3">
+                                <span class="fs-6">متوسط سرعة الرد</span>
+                            </div>
+                            <div class="col-6 mb-3 fs-6 text-end">17 دقيقة</div>
+                            <div class="col-6 mb-3">
+                                <span class="fs-6">المشترين</span>
+                            </div>
+                            <div class="col-6 mb-3 fs-6 text-end">4</div>
+                            <div class="col-6 mb-3">
+                                <span class="fs-6">طلبات جاري تنفيذها</span>
+                            </div>
+                            <div class="col-6 mb-3 fs-6 text-end">0</div>
+                            <div class="col-6 mb-3">
+                                <span class="fs-6">سعر الخدمة</span>
+                            </div>
+                            <div class="col-6 mb-3 fs-6 text-end"> {{ service?.price }} $</div>
+                            <div class="col-6 mb-3">
+                                <span class="fs-6">مدة التسليم</span>
+                            </div>
+                            <div class="col-6 mb-3 fs-6 text-end">{{ service?.duration }}</div>
+                        </div>
+                    </div>
+                    <div *ngIf="!isOwner" class="card-footer bg-white fs-4 pb-3">
+                        <h5 class="my-3">صاحب الخدمة</h5>
+                        <div class="row mt-2">
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-4 m-auto">
+                                        <img src="../../assets/auth/istockphoto-1300845620-612x612.jpg" width="60rem" class="rounded-circle" alt="">
+                                    </div>
+                                    <div class="col-8 m-auto">
+                                        <h5>{{ service?.seller?.first_name }}</h5>
+                                        <p class="fs-6 text-muted d-flex align-items-center mt-auto">
+                                            <i class="ri-user-line"></i> بائع مميز
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 m-auto">
+                                    <a href="" class="btn btn-outline">تواصل معي</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

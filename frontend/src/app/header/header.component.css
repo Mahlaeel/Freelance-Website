@@ -1,0 +1,53 @@
+.navbar {
+  background-color: #e9fbfb !important;
+}
+a {
+  color: #252525;
+  text-decoration: none;
+}
+.nav-link:hover, .nav-link:active, .nav-link:focus {
+  color: #1e88e5;
+}
+
+.custom-link, .custom-link:hover{
+  background-color: #1e88e5;
+  color: #FDFDFD;
+  border-radius: 25%;
+}
+
+
+/* Dropdown Items for Messages & Notitfication */
+.Dd-custom-item .d-flex {
+  padding: 0.75rem 1rem;
+}
+.Dd-custom-item .d-flex:hover {
+  background-color: #f1f5f7;
+}
+
+.dropdown-menu-custom-width {
+  width: 300px;
+}
+
+/* Avatar messages */
+.avatar-xs {
+  height: 2rem;
+  width: 2rem;
+}
+
+/* content of message */
+.font-size-12 {
+  font-size: 12px !important;
+}
+
+/* Search */
+
+
+/* Search icon */
+.p-input-icon-left i {
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 100%;
+  display: flex;
+  color: white;
+}

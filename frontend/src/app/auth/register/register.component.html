@@ -1,0 +1,198 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-5">
+
+      <h1 class="pt-3 fw-bold text-center ">خدماتك</h1>
+
+      <div class="text-start pt-4" *ngIf="!google">
+        <div [formGroup]="signupForm">
+
+          <div class="ps-4 pb-4">
+            <h5><a [routerLink]="['../']" class="link" style="cursor: pointer;">
+              <i class="fa-solid fa-circle-arrow-right"></i>  الرجوع</a></h5><br>
+            <h4>إنشاء حساب جديد</h4>
+            <h6>أو <a [routerLink]="['/login']" class="link" style="cursor: pointer;">
+                تسجيل الدخول إلى حسابك</a>
+            </h6>
+          </div>
+
+          <!-- Google -->
+          <div class="text-center pb-3">
+            <button type="button" (click)="signInWithGoogle()" class="btn text-black border fs-5 rounded-1 my-3"  style="width: 70%;">
+              <img class="google-icon" src="../../../assets/auth/google-icon.svg">
+              إنشاء حساب عن طريق Google
+            </button>
+          </div>
+
+
+          <!-- Seller & Buyer -->
+          <div class="form-group">
+            <div class="pb-4 px-4 ">
+              <h4>
+                <i class="fa-solid fa-briefcase" style="color: #1e88e5;"></i>
+                إختر نوع الحساب
+                <sub style="font-size: 0.9rem;" class="text-secondary">(يمكن تغيير نوع الحساب
+                  لاحقاً)</sub>
+              </h4>
+            </div>
+            <div class="m-1 d-flex">
+              <div class="form-check border w-50">
+                <input class="form-check-input mt-4" style="margin-right: -1em;" type="radio" name="role"
+                  formControlName="role" [value]="'seller'" id="flexRadioDefault1">
+                <label class="form-check-label px-2" for="flexRadioDefault1">
+                  <p class="text-black">بائع</p>
+                  <small style="font-size: 0.9rem;" class="text-secondary">أتطلع لعرض خدماتي على المستخدمين</small>
+                </label>
+              </div>
+              <div class="form-check border me-2 w-50">
+                <input class="form-check-input mt-4" style="margin-right: -1em;" type="radio" name="role"
+                  formControlName="role" [value]="'buyer'" id="flexRadioDefault2">
+                <label class="form-check-label px-2" for="flexRadioDefault2">
+                  <p class="text-black">مشتري</p>
+                  <small style="font-size: 0.9rem;" class="text-secondary">ابحث عن خدمات لشرائها</small>
+                </label>
+              </div>
+            </div>
+            <div *ngIf="signupForm.get('role').invalid && signupForm.get('role').touched">
+              <p class="text-danger" style="margin-right: 1%;">اختيار نوع الحساب مطلوب</p>
+            </div>
+          </div>
+
+          <!-- First name & Last name -->
+          <div class="form-group">
+            <div class="row">
+              <div class="col py-3">
+                <input type="text" id="first_name" class="form-control border"
+                  [ngClass]="{'border-danger': signupForm.get('first_name').invalid && signupForm.get('first_name').touched}"
+                  style="width:70%; margin-right: auto;" formControlName="first_name" placeholder="الاسم">
+                <span *ngIf="signupForm.get('first_name').errors?.['required'] && signupForm.get('first_name').touched"
+                  class="help-block text-danger" style="margin-right: 30%;">الاسم مطلوب</span>
+              </div>
+              <div class="col py-3">
+                <input type="text" id="last_name" class="form-control border"
+                  [ngClass]="{'border-danger': signupForm.get('last_name').invalid && signupForm.get('last_name').touched}"
+                  style="width: 70%;" placeholder="اسم العائلة" formControlName="last_name">
+                <span *ngIf="signupForm.get('last_name').errors?.['required'] && signupForm.get('last_name').touched"
+                  class="help-block text-danger">اسم العائلة مطلوب</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Username -->
+          <div class="form-group">
+            <input type="text" id="username" placeholder="اسم المستخدم" formControlName="username"
+              class="form-control mx-auto border" (input)="onUsernameChange()"
+              [ngClass]="{'border-danger': signupForm.get('username').invalid && signupForm.get('username').touched}"
+              style="width: 70%;">
+            <span *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched"
+              class="help-block text-danger"  style=" margin-right: 15%;">اسم المستخدم مطلوب</span>
+              <span *ngIf="usernameError" class="help-block text-danger" style=" margin-right: 15%;">
+                {{ usernameError }}</span>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <input type="text" id="email" placeholder="عنوان البريد الالكتوني" formControlName="email"
+              class="form-control border mt-4 mx-auto" (input)="onEmailChange()"
+              [ngClass]="{'border-danger': signupForm.get('email').invalid && signupForm.get('email').touched}"
+              style="width: 70%;">
+            <span *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched"
+              class="help-block text-danger" style=" margin-right: 15%;">البريد الالكتروني مطلوب</span>
+            <span *ngIf="emailError" class="help-block text-danger" style=" margin-right: 15%;">
+              {{ emailError }}</span>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <input type="password" id="password" placeholder="كلمة المرور" formControlName="password"
+              class="form-control border mt-4 mx-auto"
+              [ngClass]="{'border-danger': signupForm.get('password').invalid && signupForm.get('password').touched}"
+              style="width: 70%;">
+            <span *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched"
+              class="help-block text-danger" style=" margin-right: 15%;">كلمة المرور مطلوبة </span>
+          </div>
+
+          <!-- Confirm password -->
+          <div class="form-group">
+            <input type="password" id="c_password" placeholder="تأكيد كلمة المرور" formControlName="c_password"
+              class="form-control border mt-4 mx-auto"
+              [ngClass]="{'border-danger': signupForm.get('c_password').invalid && signupForm.get('c_password').touched}"
+              style="width: 70%;">
+            <span *ngIf="signupForm.get('c_password').errors?.['required'] && signupForm.get('c_password').touched"
+              class="help-block text-danger" style=" margin-right: 15%;">يجب تأكيد كلمة المرور</span>
+            <span *ngIf="signupForm.get('c_password').errors?.['mustMatch'] && signupForm.get('c_password').touched"
+              class="help-block text-danger" style=" margin-right: 15%;">كلمة المرور وتأكيدها لا يتطابقان</span>
+          </div>
+
+          <div class="form-group text-center">
+            <button (click)="onSubmit()" class="btn3 btn btn-block mt-5">إنشاء حساب</button>
+          </div>
+        </div>
+      </div>
+      <div class="text-start pt-4" *ngIf="google">
+      <div class="ps-4 pb-4">
+        <h5><a [routerLink]="['../']" class="link" style="cursor: pointer;">
+          <i class="fa-solid fa-circle-arrow-right"></i>  الرجوع</a></h5><br>
+        <h4>تسجيل عن طريق google</h4>
+        <h6>الرجاء إكمال المعلومات</h6>
+        <p class="pt-4">الرجوع</p>
+        <span *ngIf="google_idError" class="help-block text-danger fw-bold">
+          {{ google_idError }} , الرجاء الانتقال إلى صفحة <a [routerLink]="(['/login'])">تسجيل الدخول</a></span>
+      </div>
+        <div class="mt-5" [formGroup]="signupFormGoogle">
+          <!-- Seller & Buyer -->
+        <div class="form-group">
+          <div class="pb-4 px-4 ">
+            <h4>
+              <i class="fa-solid fa-briefcase" style="color: #1e88e5;"></i>
+              إختر نوع الحساب
+              <sub style="font-size: 0.9rem;" class="text-secondary">(يمكن تغيير نوع الحساب
+                لاحقاً)</sub>
+            </h4>
+          </div>
+          <div class="m-1 d-flex">
+            <div class="form-check border w-50">
+              <input class="form-check-input mt-4" style="margin-right: -1em;" type="radio" name="role"
+                formControlName="role" [value]="'seller'" id="flexRadioDefault1">
+              <label class="form-check-label px-2" for="flexRadioDefault1">
+                <p class="text-black">بائع</p>
+                <small style="font-size: 0.9rem;" class="text-secondary">أتطلع لعرض خدماتي على المستخدمين</small>
+              </label>
+            </div>
+            <div class="form-check border me-2 w-50">
+              <input class="form-check-input mt-4" style="margin-right: -1em;" type="radio" name="role"
+                formControlName="role" [value]="'buyer'" id="flexRadioDefault2">
+              <label class="form-check-label px-2" for="flexRadioDefault2">
+                <p class="text-black">مشتري</p>
+                <small style="font-size: 0.9rem;" class="text-secondary">ابحث عن خدمات لشرائها</small>
+              </label>
+            </div>
+          </div>
+          <div *ngIf="signupFormGoogle.get('role').invalid && signupFormGoogle.get('role').touched">
+            <p class="text-danger" style="margin-right: 1%;">اختيار نوع الحساب مطلوب</p>
+          </div>
+        </div>
+        <!-- Username -->
+        <div class="form-group mt-5">
+          <input type="text" id="username" placeholder="اسم المستخدم" formControlName="username"
+            class="form-control mx-auto border" (input)="onUsernameChange()"
+            [ngClass]="{'border-danger': signupForm.get('username').invalid && signupForm.get('username').touched}"
+            style="width: 70%;">
+          <span *ngIf="!signupFormGoogle.get('username').valid && signupFormGoogle.get('username').touched"
+            class="help-block text-danger"  style=" margin-right: 15%;">اسم المستخدم مطلوب</span>
+            <span *ngIf="usernameError" class="help-block text-danger" style=" margin-right: 15%;">
+              {{ usernameError }}</span>
+        </div>
+        <div class="form-group text-center">
+          <button class="btn3 btn btn-block mt-5" (click)="onSubmitGoogleForm()">إنشاء حساب</button>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7 p-0 position-relative">
+      <div class="position-absolute">
+        <img src="../../../assets/auth/register.svg">
+      </div>
+    </div>
+  </div>

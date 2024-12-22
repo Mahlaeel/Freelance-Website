@@ -1,0 +1,345 @@
+<!-- If the user is guest -->
+<nav class="navbar navbar-expand-lg" *ngIf="guest">
+  <div class="container-fluid">
+    <ul class="navbar-nav mb-2 mb-lg-0  d-flex align-items-center">
+      <a class="navbar-brand fs-1 fw-bold" [routerLink]="['/']">خدماتك</a>
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" [routerLink]="['/']">
+          <i class="fa-solid fa-home fa-sm"></i> الرئيسية
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" href="#">
+          <i class="fa-solid fa-layer-group fa-sm"></i> التصنيفات
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mb-2 mb-lg-0 d-flex align-items-center">
+      <!-- Search -->
+
+      <!-- Shopping icon -->
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" href="#">
+          <i class="fa-solid fa-cart-shopping fa-sm"></i>
+        </a>
+      </li>
+      <!-- Signin -->
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" [routerLink]="['/login']">
+          <i class="fa-solid fa-arrow-right-to-bracket fa-sm"></i> الدخول
+        </a>
+      </li>
+      <!-- Signup -->
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5 btn custom-link rounded-pill" [routerLink]="['/register']">
+          <i class="fa-solid fa-user-plus fa-sm"></i> انضم إلينا
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- If the user is buyer -->
+<nav class="navbar navbar-expand-lg" *ngIf="role === 'buyer'">
+  <div class="container-fluid">
+    <ul class="navbar-nav mb-2 mb-lg-0  d-flex align-items-center">
+      <a class="navbar-brand fs-1 fw-bold" href="#">خدماتك</a>
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" href="#">
+          <i class="fa-solid fa-layer-group fa-sm"></i> التصنيفات
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" href="#">
+          <i class="fa-solid fa-bag-shopping fa-sm"></i> المشتريات
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mb-2 mb-lg-0 d-flex align-items-center">
+      <!-- Search -->
+
+      <!-- Notification dropdwon -->
+      <li class="nav-item me-3 dropdown">
+        <div class="dropdown">
+          <a class="nav-link fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bell fa-sm"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end dropdown-menu-custom-width">
+            <div class="p-2 border-bottom">
+              <div class="d-grid">
+                <h5 class="text-center">الإشعارات</h5>
+              </div>
+            </div>
+            <div>
+              <a href="" class="text-reset Dd-custom-item">
+                <div class="d-flex">
+                  <div>
+                    <h6 class="mb-1">عنوان الإشعار</h6>
+                    <div class="font-size-12 text-muted">
+                      <p class="mb-1">محتوى الإشعار</p>
+                      <p class="mb-0"><i class="mdi mdi-clock-outline"></i> منذ 3 دقائق</p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="p-2 border-top">
+              <div class="d-grid">
+                <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+                  <i class="mdi mdi-arrow-right-circle me-1"></i> كل الإشعارات
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <!-- Messages icon-->
+      <li class="nav-item me-3 dropdown">
+        <a class="nav-link fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-envelope fa-sm"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end dropdown-menu-custom-width">
+          <div class="p-2 border-bottom">
+            <div class="d-grid">
+              <h5 class="text-center">الرسائل</h5>
+            </div>
+          </div>
+          <a href="" class="text-reset Dd-custom-item">
+            <div class="d-flex">
+              <img src="../../assets/home/مستقلون محترفون.svg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+              <div>
+                <h6 class="mb-1">جعفر ونوس</h6>
+                <div class="font-size-12 text-muted">
+                  <p class="mb-1">محتوى الرسالة المرسلة . . . . . . . . . . . . </p>
+                  <p class="mb-0"><i class="mdi mdi-clock-outline"></i> منذ ساعة واحدة</p>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="p-2 border-top">
+            <div class="d-grid">
+              <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+                <i class="mdi mdi-arrow-right-circle me-1"></i> كل الرسائل
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <!-- Shopping icon-->
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" href="#">
+          <i class="fa-solid fa-cart-shopping fa-sm"></i>
+        </a>
+      </li>
+      <!-- user dropdown -->
+      <li class="nav-item me-3 dropdown">
+        <a class="nav-link fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img [src]="userData.image ?  userData.image : '../../assets/user-profile.svg'" width="30px" height="30px" alt="header-profile-user" class="rounded-circle">
+          <span class="d-none d-xl-inline-block ms-1">{{ userData.username }}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end" style="width: 180px;">
+          <!-- item-->
+          <div>
+            <a [routerLink]="['/profile']" class="text-reset Dd-custom-item">
+              <div class="d-flex">
+                <div>
+                  <i class="ri-user-line align-middle me-1"></i> {{ userData.username }}
+                </div>
+              </div>
+            </a>
+            <a href="" class="text-reset Dd-custom-item">
+              <div class="d-flex">
+                <div>
+                  <i class="ri-settings-2-line align-middle me-1"></i> تعديل الحساب
+                </div>
+              </div>
+            </a>
+            <a href="" class="text-reset Dd-custom-item">
+              <div class="d-flex">
+                <div>
+                  <i class="ri-wallet-2-line align-middle me-1"></i>الرصيد
+                </div>
+              </div>
+            </a>
+            <a href="" (click)="onLogout()" class="text-reset Dd-custom-item">
+              <div class="d-flex">
+                <div class="text-danger">
+                  <i class="ri-shut-down-line align-middle me-1 text-danger"></i>تسجيل خروج
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- If the user is seller -->
+<nav class="navbar navbar-expand-lg" *ngIf="role === 'seller'">
+  <div class="container-fluid">
+    <ul class="navbar-nav mb-2 mb-lg-0  d-flex align-items-center">
+      <a class="navbar-brand fs-1 fw-bold" href="#">خدماتك</a>
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5 rounded-pill custom-link" [routerLink]="['add-service']">
+          <i class="fa-solid fa-plus fa-sm"></i> أضف خدمة
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" href="#">
+          <i class="fa-solid fa-layer-group fa-sm"></i> التصنيفات
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" href="#">
+          <i class="fa-solid fa-bag-shopping fa-sm"></i> المشتريات
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" href="#">
+          <i class="fa-solid fa-truck fa-sm text-reverse"></i> الطلبات الواردة
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mb-2 mb-lg-0 d-flex align-items-center">
+      <!-- Search -->
+
+      <!-- Notification dropdwon -->
+      <li class="nav-item me-3 dropdown">
+        <div class="dropdown">
+          <a class="nav-link fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bell fa-sm"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end dropdown-menu-custom-width">
+            <div class="p-2 border-bottom">
+              <div class="d-grid">
+                <h5 class="text-center">الإشعارات</h5>
+              </div>
+            </div>
+            <div>
+              <a href="" class="text-reset Dd-custom-item border-bottom">
+                <div class="d-flex border-bottom">
+                  <div>
+                    <h6 class="mb-1">عنوان الإشعار</h6>
+                    <div class="font-size-12 text-muted">
+                      <p class="mb-1">محتوى الإشعار</p>
+                      <p class="mb-0"><i class="mdi mdi-clock-outline"></i> منذ 3 دقائق</p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a href="" class="text-reset Dd-custom-item">
+                <div class="d-flex">
+                  <div>
+                    <h6 class="mb-1">عنوان الإشعار</h6>
+                    <div class="font-size-12 text-muted">
+                      <p class="mb-1">محتوى الإشعار</p>
+                      <p class="mb-0"><i class="mdi mdi-clock-outline"></i> منذ 3 دقائق</p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="p-2 border-top">
+              <div class="d-grid">
+                <a class="btn btn-sm btn-link font-size-14 text-center" href="#">
+                  <i class="mdi mdi-arrow-right-circle me-1"></i> كل الإشعارات
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <!-- Messages icon-->
+      <li class="nav-item me-3 dropdown">
+        <a class="nav-link fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-envelope fa-sm"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end dropdown-menu-custom-width">
+          <div class="p-2 border-bottom">
+            <div class="d-grid">
+              <h5 class="text-center">الرسائل</h5>
+            </div>
+          </div>
+          <div>
+            <a href="" class="text-reset Dd-custom-item">
+              <div class="d-flex border-bottom">
+                <img src="../../assets/home/مستقلون محترفون.svg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                <div>
+                  <h6 class="mb-1">جعفر ونوس</h6>
+                  <div class="font-size-12 text-muted">
+                    <p class="mb-1">محتوى الرسالة المرسلة . . . . . . . . . . . . </p>
+                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i> منذ ساعة واحدة</p>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="" class="text-reset Dd-custom-item">
+              <div class="d-flex">
+                <img src="../../assets/home/مستقلون محترفون.svg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                <div>
+                  <h6 class="mb-1">جعفر ونوس</h6>
+                  <div class="font-size-12 text-muted">
+                    <p class="mb-1">محتوى الرسالة المرسلة . . . . . . . . . . . . </p>
+                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i> منذ ساعة واحدة</p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="p-2 border-top">
+            <div class="d-grid">
+              <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+                <i class="mdi mdi-arrow-right-circle me-1"></i> كل الرسائل
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <!-- Shopping icon-->
+      <li class="nav-item me-3">
+        <a class="nav-link fs-5" href="#">
+          <i class="fa-solid fa-cart-shopping fa-sm"></i>
+        </a>
+      </li>
+      <!-- user dropdown -->
+      <li class="nav-item me-3 dropdown">
+        <a class="nav-link fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img [src]="userData.image ?  userData.image : '../../assets/user-profile.svg'" width="30px" height="30px" alt="header-profile-user" class="rounded-circle">
+          <span class="d-none d-xl-inline-block ms-1">{{ userData.username }}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end" style="width: 180px;">
+          <!-- item-->
+          <div>
+            <a [routerLink]="['/profile']"  class="text-reset Dd-custom-item">
+              <div class="d-flex">
+                <div>
+                  <i class="ri-user-line align-middle me-1"></i>{{ userData.username }}
+                </div>
+              </div>
+            </a>
+            <a href="" class="text-reset Dd-custom-item">
+              <div class="d-flex">
+                <div>
+                  <i class="ri-settings-2-line align-middle me-1"></i> تعديل الحساب
+                </div>
+              </div>
+            </a>
+            <a href="" class="text-reset Dd-custom-item">
+              <div class="d-flex">
+                <div>
+                  <i class="ri-wallet-2-line align-middle me-1"></i>الرصيد
+                </div>
+              </div>
+            </a>
+            <a href="" (click)="onLogout()" class="text-reset Dd-custom-item">
+              <div class="d-flex">
+                <div class="text-danger">
+                  <i class="ri-shut-down-line align-middle me-1 text-danger"></i>تسجيل خروج
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

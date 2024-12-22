@@ -1,0 +1,176 @@
+<h2 class="m-3"> إضافة خدمة جديدة</h2>
+<div class="container-fluid w-100 p-5">
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-12 bg-white">
+        <form [formGroup]="serviceForm" (ngSubmit)="onSubmit()">
+            <div class="form-group mb-3">
+                <label class="mb-2 fs-4" for="title">عنوان الخدمة</label>
+                <input type="text"
+                id="title"
+                formControlName="title"
+                name="title"
+                class="form-control"
+                [ngClass]="{'border-danger': f.title.touched && f.title.invalid}">
+                <span class="fs-6 text-muted">أدخل عنواناً واضحاً باللغة العربية يصف الخدمة التي تريد أن تقدمها. لا تدخل رموزاً أو كلمات مثل "حصرياً"، "لأول مرة"، "لفترة محدود".. الخ.</span>
+                <p *ngIf="f.title.touched && f.title.invalid" class="text-danger">
+                    <small *ngIf="f.title.errors?.required">عنوان الخدمة مطلوب</small>
+                    <small *ngIf="f.title.errors?.minlength">يجب أن يكون العنوان على الأقل 10 أحرف</small>
+                </p>
+            </div>
+            <div class="form-group mb-3 ">
+                <label class="mb-2 fs-4">التصنيف</label>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <select (change)="onCategoryChange($event.target.value)"
+                        class="form-select"
+                        formControlName="mainCategory"
+                        name="category"
+                        id="category"
+                        aria-label="Default select example"
+                        [ngClass]="{'border-danger': f.mainCategory.touched && f.mainCategory.invalid}">
+                            <option value="" selected disabled>اختر التصنيف</option>
+                            <option *ngFor="let category of categories[0]" [value]="category.id">{{ category.title }}</option>
+                        </select>
+                        <p *ngIf="f.mainCategory.touched && f.mainCategory.invalid" class="text-danger">
+                            <small>يجب اختيار التصنيف</small>
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <select class="form-select"
+                        formControlName="category_id"
+                        aria-label="Default select example"
+                        [ngClass]="{'border-danger': f.category_id.touched && f.category_id.invalid}">
+                            <option value="" disabled selected>اختر التصنيف الفرعي</option>
+                            <option *ngFor="let subCategory of subcategories[0]" [value]="subCategory.id">{{ subCategory.title }}</option>
+                        </select>
+                        <p *ngIf="f.category_id.touched && f.category_id.invalid" class="text-danger">
+                            <small>يجب اختيار التصنيف الفرعي</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label class="fs-4 mb-2" for="description">وصف الخدمة</label>
+                <textarea class="form-control"
+                formControlName="description"
+                name="description"
+                id="description"
+                rows="6"
+                [ngClass]="{'border-danger': f.description.touched && f.description.invalid}"></textarea>
+                <span class="text-muted fs-6">أدخل وصف الخدمة بدقة يتضمن جميع المعلومات والشروط . يمنع وضع البريد الالكتروني، رقم الهاتف أو أي معلومات اتصال أخرى.</span>
+                <p *ngIf="f.description.touched && f.description.invalid" class="text-danger">
+                    <small *ngIf="f.description.errors?.required">وصف الخدمة مطلوب</small>
+                    <small *ngIf="f.description.errors?.minlength">يجب أن يكون الوصف على الأقل 20 حرفاً</small>
+                </p>
+            </div>
+            <div class="form-group mb-3">
+                <label class="fs-4 mb-2">معرض الخدمة</label>
+                <file-pond
+                    #myPond
+                    [options]="pondOptions"
+                    [files]="pondFiles"
+                    (onaddfile)="pondHandleAddFile($event)"
+                    (onremovefile)="pondHandleFileRemove($event)"
+                    formArrayName="images"
+                    >
+                </file-pond>
+                <p *ngIf="f.images.touched" class="text-danger">
+                    <small>صورة الخدمة مطلوبة ويجب ان تكون مراعية للحجم والأبعاد</small>
+                </p>
+            </div>
+            <div class="form-group mb-3">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <label for="price" class="fs-4 mb-2">سعر الخدمة</label>
+                        <input type="number"
+                        class="form-control"
+                        id="price"
+                        formControlName="price"
+                        [ngClass]="{'border-danger': f.price.touched && f.price.invalid}">
+                        <p *ngIf="f.price.touched && f.price.invalid" class="text-danger">
+                            <small>يجب تحديد السعر</small>
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <label for="duration" class="fs-4 mb-2">مدة التسليم</label>
+                        <select class="form-select"
+                        formControlName="duration"
+                        id="duration"
+                        aria-label="Default select example"
+                        [ngClass]="{'border-danger': f.duration.touched && f.duration.invalid}">
+                            <option value="" selected disabled class="text-secondry">المدة</option>
+                            <option value="يوم واحد">يوم واحد</option>
+                            <option value="يومين">يومين</option>
+                            <option value="ثلاثة أيام">ثلاثة أيام</option>
+                            <option value="أربعة أيام">أربعة أيام</option>
+                            <option value="خمسة أيام">خمسة أيام</option>
+                            <option value="ستة أيام">ستة أيام</option>
+                            <option value="أسبوع">أسبوع</option>
+                            <option value="أسبوعين">أسبوعين</option>
+                            <option value="ثلاثة أسابيع">ثلاثة أسابيع</option>
+                            <option value="شهر">شهر</option>
+                        </select>
+                        <span class="fs-6 text-muted">يحق للمشتري إلغاء الخدمة مباشرة بحال التأخر عن الموعد المحدد.</span>
+                        <p *ngIf="f.duration.touched && f.duration.invalid" class="text-danger">
+                            <small>يجب تحديد المدة</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-5">
+                <label class="fs-4 mb-2" for="sellerNote">تعليمات للمشتري</label>
+                <textarea class="form-control"
+                formControlName="seller_note"
+                name="sellerNote"
+                id="sellerNote"
+                rows="6"
+                [ngClass]="{'border-danger': f.seller_note.touched && f.seller_note.invalid}"></textarea>
+                <span class="text-muted fs-6">المعلومات التي تحتاجها من المشتري لتنفيذ الخدمة. تظهر هذه المعلومات بعد شراء الخدمة فقط.</span>
+                <p *ngIf="f.seller_note.touched && f.seller_note.invalid" class="text-danger">
+                    <small *ngIf="f.seller_note.errors?.required">التعليمات للمشتري مطلوبة</small>
+                    <small *ngIf="f.seller_note.errors?.minlength">يجب أن تكون التعليمات على الأقل 20 حرفاً</small>
+                </p>
+            </div>
+            <button type="submit"
+            [disabled]="serviceForm.invalid"
+            class="btn fw-bold w-100"
+            style="background-color: #1e88e5; color: white;">أضف خدمة</button>
+        </form>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+        <div>
+            <h4>أضف خدمتك وابدأ بتحقيق الأرباح</h4>
+            <p class="text-muted">يتيح لك خدماتك إمكانية تحقيق الأرباح عبر إضافة خدمات تجيد تنفيذها وإتاحتها للبيع للعملاء المهتمين. أدخل تفاصيل الخدمة بعناية ليقوم فريق خدماتك بمراجعتها ونشرها.</p>
+        </div>
+        <div>
+            <h4>نصائح لإضافة خدمة صحيحة</h4>
+            <div class="mt-3">
+                <h5>عنوان الخدمة</h5>
+                <p class="text-muted">اختر عنوانًا مختصرًا وواضحًا يعكس ما ستقدمه بالتحديد في خدمتك، ليتمكن المشترين من العثور عليها عند البحث بكلمات ذات صلة بمجال الخدمة.</p>
+            </div>
+            <div class="mt-3">
+                <h5>وصف الخدمة</h5>
+                <p class="text-muted">اكتب وصفًا مميزًا للخدمة بلغة سليمة خالية من الأخطاء، تشرح خلاله ما سيحصل عليه العميل بالتفصيل عند شراء الخدمة.</p>
+            </div>
+            <div class="mt-3">
+                <h5>معرض الخدمة</h5>
+                <p class="text-muted">أضف صورة معبرة عن الخدمة بالإضافة إلى ثلاثة نماذج حصرية على الأقل تعرّف المشتري من خلالها على أسلوبك في العمل ومهاراتك.</p>
+            </div>
+            <div class="mt-3">
+                <h5>سعر الخدمة</h5>
+                <p class="text-muted">حرص على تحديد سعر مناسب للخدمة بناء على حجم العمل والجهد المبذول مع الأخذ بعين الاعتبار عمولة الموقع، وحدد مدة تسليم مناسبة لإنجاز الخدمة بإتقان.</p>
+            </div>
+        </div>
+        <div>
+            <h4>لماذا تُرفض الخدمة في خدماتك؟</h4>
+            <ul class="ms-3">
+                <li class="text-muted">عنوان طويل أو غير واضح أو يدمج أكثر من خدمة معًا</li>
+                <li class="text-muted">تجاهل تحديد حجم العمل الذي سيحصل عليه المشتري في وصف الخدمة</li>
+                <li class="text-muted">صور أو تصاميم ذات جودة منخفضة أو ليست من إعداد البائع</li>
+                <li class="text-muted">إرفاق أقل من ثلاثة نماذج لمعرض أعمال الخدمة</li>
+                <li class="text-muted">خدمات مخالفة وفقًا لشروط الاستخدام موقع خدماتك</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>

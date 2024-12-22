@@ -1,0 +1,317 @@
+<div class="container mt-5 border border-2 p-custom rounded">
+  <div class="row p-custom">
+    <!-- Statistics and general info-->
+    <div class="col-md-5 col-sm-12 d-flex align-items-center p-0 ps-5 ">
+      <div class="position-relative">
+        <img [src]="userData.image ? tempImage ||  userData.image : '../../assets/user-profile.svg'"
+          alt="Profile Picture" class="rounded-circle img-fluid  my-3 profile-picture position-relative">
+        <div class="edit-overlay" data-bs-toggle="modal" data-bs-target="#editImageModal">
+          <i class="ri-camera-line align-middle"></i>
+          <span>تعديل الصورة</span>
+        </div>
+      </div>
+      <div class="text-start ps-3">
+        <h3 class="me-3">{{ userData.username }}</h3>
+        <div class="d-flex justify-content-between">
+          <h6 class="text-muted me-3">
+            <i class="ri-user-line align-middle me-1"></i> مستخدم جديد
+          </h6>
+          <h6 *ngIf="userData.job_title" class="text-muted">
+            <i class="ri-briefcase-2-line align-middle me-1"></i>{{ userData.job_title }}
+          </h6>
+        </div>
+      </div>
+    </div>
+    <!-- Edit image modal -->
+    <div class="modal fade" id="editImageModal" tabindex="-1" aria-labelledby="editImageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editImageModalLabel">تعديل الصورة</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="uploadImage" class="form-label">اختر صورة جديدة</label>
+                <input type="file" class="form-control" id="uploadImage" (change)="onImageUpload($event)">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" *ngIf="userData.image" (click)="deleteImage()">حذف
+              الصورة</button>
+            <button type="button" class="btn btn-primary" (click)="saveImage()">حفظ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Statistics -->
+    <div class="col-md-7 col-sm-12 d-flex align-items-center" *ngIf="userData.role === 'seller'">
+      <div class="row">
+        <div class="col-3 text-center">
+          <p class="mb-1"><strong>معدل إكمال الطلبات </strong></p>
+          <p><i class="fa fa-check-circle headerline"></i> 10</p>
+        </div>
+        <div class="col-3 text-center">
+          <p class="mb-1"><strong>التقييمات</strong></p>
+          <p><i class="fa fa-star text-warning"></i> 4.8</p>
+        </div>
+        <div class="col-3 text-center">
+          <p class="mb-1"><strong>الخدمات المنشورة</strong></p>
+          <p>75</p>
+        </div>
+        <div class="col-3 text-center">
+          <p class="mb-1"><strong>عدد العملاء</strong></p>
+          <p> 12</p>
+        </div>
+        <div class="col-3 text-center">
+          <p class="mb-1"><strong>متوسط سرعة الرد</strong></p>
+          <p>يوم</p>
+        </div>
+        <div class="col-3 text-center">
+          <p class="mb-1"><strong>طلبات جاري تنفيذها</strong></p>
+          <p>3</p>
+        </div>
+        <div class="col-3 text-center">
+          <p class="mb-1"><strong>تاريخ التسجيل</strong></p>
+          <p>{{ userData.created_at | date:'yyyy-MM-dd' }}</p>
+        </div>
+        <div class="col-3 text-center">
+          <p class="mb-1"><strong>آخر تواجد</strong></p>
+          <p>{{ getLastSeenText(userData.last_seen) }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-7 d-flex align-items-end justify-content-end" *ngIf="userData.role === 'buyer'">
+      <div class=" text-center px-4">
+        <p class="mb-1"><strong>تاريخ التسجيل</strong></p>
+        <p>{{ userData.created_at | date:'yyyy-MM-dd' }}</p>
+      </div>
+      <div class=" text-center px-4">
+        <p class="mb-1"><strong>آخر تواجد</strong></p>
+        <p>{{ getLastSeenText(userData.last_seen) }}</p>
+      </div>
+    </div>
+    <div class="row p-custom">
+      <div class="col-md-4 p-0 border border-2 border-top-0 border-start-0 border-bottom-0 mt-3">
+        <!-- Verifications  -->
+        <h5 class="py-2 fw-bold headerline text-center border border-2 border-start-0 border-end-0 m-0">توثيقات</h5>
+        <div class="d-flex justify-content-between">
+          <div class="col-6 text-center">
+            <p class="mb-1"><strong>البريد الإلكتروني</strong></p>
+            <p><i class="fa fa-check-circle headerline"></i></p>
+          </div>
+          <div class="col-6 text-center">
+            <p class="mb-1"><strong>رقم الجوال</strong></p>
+            <p><i class="fa fa-check-circle headerline"></i></p>
+          </div>
+        </div>
+        <div class="col-6 text-center">
+          <p class="mb-1"><strong>الهوية الشخصية</strong></p>
+          <p><i class="fa fa-check-circle headerline"></i></p>
+        </div>
+        <!-- Account type -->
+        <div class="col">
+          <h5 class="headerline fw-bold pb-4 ps-3">نوع الحساب</h5>
+          <div class="text-center ">
+            <div class="btn-group w-75" role="group" aria-label="Basic radio toggle button group">
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off"
+                (change)="updateRole('seller')" [checked]="userData.role === 'seller' ">
+              <label class="btn btn-outline rounded-3 rounded-end-0" for="btnradio1">بائع</label>
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"
+                (change)="updateRole('buyer')" [checked]="userData.role === 'buyer' ">
+              <label class="btn btn-outline rounded-3 rounded-start-0" for="btnradio2">مشتري</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job Title -->
+        <div class="col pt-5 d-flex justify-content-start align-items-center">
+          <h5 class="headerline fw-bold pe-3">المسمى الوظيفي</h5>
+          <button *ngIf="!userData.job_title" class="btn border-0" data-bs-toggle="modal"
+            data-bs-target="#jobTitleModal">
+            <i class="mdi mdi-plus-circle-outline fs-2 headerline"></i>
+          </button>
+          <h6 class="fw-bold pe-3">{{ userData.job_title }}</h6>
+          <button *ngIf="userData.job_title" class="btn border-0" data-bs-toggle="modal"
+            data-bs-target="#jobTitleModal">
+            <i class="mdi mdi-pencil-circle-outline fs-2 headerline"></i>
+          </button>
+          <button *ngIf="userData.job_title" class="btn border-0" (click)="confirmDeleteJobTitle()">
+            <i class="mdi mdi-trash-can-outline fs-2 headerline"></i>
+          </button>
+        </div>
+
+        <!-- Job title modal -->
+        <div class="modal fade" id="jobTitleModal" tabindex="-1" aria-labelledby="jobTitleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="jobTitleModalLabel" *ngIf="!userData.job_title">إضافة المسمى الوظيفي</h5>
+                <h5 class="modal-title" id="jobTitleModalLabel" *ngIf="userData.job_title">تعديل المسمى الوظيفي</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form (ngSubmit)="submitJobTitle()" #jobTitleForm="ngForm">
+                  <div class="mb-3">
+                    <label for="jobTitle" class="form-label">المسمى الوظيفي</label>
+                    <input type="text" class="form-control" id="jobTitle" name="jobTitle" [(ngModel)]="jobTitle"
+                      required>
+                    <p *ngIf="userData.job_title">المسمى الوظيفي الحالي: {{ userData.job_title }}</p>
+                  </div>
+                  <button type="submit" class="btn btn-primary" [disabled]="jobTitleForm.invalid">حفظ</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit verification -->
+        <div class="col py-3 d-flex justify-content-start align-items-center">
+          <h5 class="headerline fw-bold pe-3">التوثيقات</h5>
+          <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#verificationModal">
+            <i class="mdi mdi-plus-circle-outline fs-2 headerline"></i>
+          </button>
+        </div>
+        <!-- Select verification modal -->
+        <div class="modal fade" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="verificationModalLabel">اختر نوع التوثيق</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body d-flex justify-content-between">
+                <!-- زر توثيق رقم الجوال -->
+                <button class="btn w-100 mb-2" data-bs-dismiss="modal" data-bs-toggle="modal"
+                  data-bs-target="#phoneVerificationModal">
+                  <i class="mdi mdi-phone-plus-outline fs-1 headerline"></i>
+                  <div>توثيق رقم الجوال</div>
+                </button>
+                <!-- زر توثيق الهوية الشخصية -->
+                <button class="btn w-100 mb-2">
+                  <i class="mdi mdi-card-account-details-outline fs-1 headerline"></i>
+                  <div>توثيق الهوية الشخصية</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- phone verification modal -->
+        <div class="modal fade" id="phoneVerificationModal" tabindex="-1" aria-labelledby="phoneVerificationModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="phoneVerificationModalLabel">توثيق رقم الجوال</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form (ngSubmit)="submitPhoneVerification()" #phoneForm="ngForm">
+                  <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">رقم الجوال </label>
+
+                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                      [(ngModel)]="phoneNumber" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary" [disabled]="phoneForm.invalid">إرسال</button>
+                </form>
+                <p *ngIf="phoneVerificationStatus" class="text-success mt-3">{{ phoneVerificationStatus }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- About me -->
+      <div class="col-md-8 p-0 text-center mt-3 ">
+        <div class="about mb-4">
+          <h5 class=" p-2 fw-bold headerline text-center border border-2 border-start-0 border-end-0 ">نبذة عني</h5>
+          <div *ngIf="!userData.about_me" class="d-flex align-items-center">
+            <h5 class="ps-3">لم يكتب نبذة شخصية</h5>
+            <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#aboutMeModal">
+              <i class="mdi mdi-plus-circle-outline fs-2 headerline"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between">
+            <pre class="p-2 m-0 fs-6 about-content">{{ isExpanded ? userData.about_me : (userData.about_me | slice:0:500) }}    <button *ngIf="userData.about_me && userData.about_me.length > 500" class="btn btn-link p-0 text-decoration-none" (click)="toggleAboutMe()">{{ isExpanded ? 'أقل' : 'المزيد' }}</button>
+          </pre>
+            <button *ngIf="userData.about_me" class="btn border-0 d-flex align-items-start" data-bs-toggle="modal"
+              data-bs-target="#aboutMeModal">
+              <i class="mdi mdi-pencil-circle-outline fs-2 headerline"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- About Me Modal -->
+      <div class="modal fade" id="aboutMeModal" tabindex="-1" aria-labelledby="aboutMeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="aboutMeModalLabel">إضافة نبذة شخصية</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form (ngSubmit)="submitAboutMe()" #aboutMeForm="ngForm">
+                <div class="mb-3">
+                  <label for="aboutMe" class="form-label">نبذة عني</label>
+                  <textarea class="form-control" id="aboutMe" name="aboutMe" rows="9" [(ngModel)]="aboutMe"
+                    #aboutMeField="ngModel" required [maxlength]="maxChars" (input)="updateRemainingChars()"></textarea>
+                  <div class="form-text text-start">
+                    <span [ngClass]="{'text-danger': remainingChars < 0}">
+                      {{ remainingChars }} أحرف متبقية
+                    </span>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">حفظ</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row p-custom">
+      <!-- Services -->
+      <div class="col-md-12 p-0" *ngIf="userData.role === 'seller' ">
+        <h5 class=" headerline py-2 fw-bold text-center border border-2 border-start-0 border-end-0 ">خدماتي</h5>
+        <div class="container mt-4">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center" *ngFor="let service of services">
+              <div class="card mb-3 shadow-sm border rounded-5 custom-card" style="width: 18rem;">
+                <a [routerLink]="['/service', service.id]">
+                  <img [src]="service.images[0]" alt="صورة الخدمة" class="border rounded-5"
+                    style="width: 18rem; height: 15rem;" />
+                </a>
+                <a href="#" class="" [ngClass]="userData.rating ? 'owner-link-rating' : 'owner-link'">
+                  <img
+                    [src]="userData.image ?  userData.image : '../../assets/user-profile.svg'"
+                    alt="مالك الخدمة" class="owner-img" />
+                </a>
+                <div class="card-body">
+                  <a [routerLink]="['/service', service.id]" class="text-decoration-none">
+                    <h6 class="card-title fw-bold headerline">{{ service.title }}</h6>
+                  </a>
+                  <p class="card-text d-flex align-items-center justify-content-between" *ngIf="services.rating">
+                    <span>تقييم الخدمة:</span>
+                    <app-star-rating [rating]="service.rating || 0"></app-star-rating>
+                  </p>
+                  <p class="card-text d-flex align-items-center justify-content-between">
+                    <span>السعر:</span>
+                    <span>{{ service.price }}$</span>
+                  </p>
+                  <p class="card-text d-flex align-items-center justify-content-between">
+                    <span>مدة التسليم:</span>
+                    <span>{{ service.duration }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
